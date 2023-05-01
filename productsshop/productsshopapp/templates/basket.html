@@ -1,0 +1,23 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/' %}"></script>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <header>
+        <div class="nav_btn">
+            <a href="{% url 'basket' %}"><img class="basket_header" src="{% static 'img/basket.png' %}"></a>
+            <a class="main_header" href="{% url 'shop' %}">Головна сторінка</a>
+        </div>
+
+    </header>
+</body>
+
+</html>
