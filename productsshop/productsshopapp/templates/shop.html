@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script defer src="{% static 'js/jQuery.js' %}"></script>
     <script defer src="{% static 'js/script.js' %}"></script>
     <title>{{ title }}</title>
 </head>
@@ -26,7 +27,16 @@
             <p><img class="image" src="{{product.image.url}}"></p>
             <p>Опис: {{product.description}}</p>
             <p id='price'>Ціна: {{product.price}}$</p>
-            <div><span class="minus">&minus; </span><span class="count">1</span><span class='plus'> &plus;</span></div>
+            <!-- <div class="count_fam" onselectstart="return false" onmousedown="return false">
+                <span class="minus">&minus;</span>
+                <span class="count">1</span>
+                <span class='plus'> &plus;</span>
+            </div> -->
+            <div class="count_fam">
+                <button class = "minus">&minus;</button>
+                <span class="count">3</span>
+                <button class = "plus">&plus;</button>
+            </div>
             <input name="id" value="{{product.pk}}" hidden>
             <input name="url" value="{% url 'shop' %}" hidden>
             <button value="{{product.pk}}" class="send_btn">{{text_btn}}</button>
