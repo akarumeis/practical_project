@@ -23,23 +23,18 @@
         {% for product in products %}
         <form method="post" class="product" id="form">
             {% csrf_token %}
-            <p class="title">Назва: {{product.name}}</p>
-            <p><img class="image" src="{{product.image.url}}"></p>
-            <p>Опис: {{product.description}}</p>
-            <p id='price'>Ціна: {{product.price}}$</p>
-            <!-- <div class="count_fam" onselectstart="return false" onmousedown="return false">
-                <span class="minus">&minus;</span>
-                <span class="count">1</span>
-                <span class='plus'> &plus;</span>
-            </div> -->
-            <div class="count_fam">
+            <p class="title">Назва: {{product.product.name}}</p>
+            <p><img class="image" src="{{product.product.image.url}}"></p>
+            <p>Опис: {{product.product.description}}</p>
+            <p id='price'>Ціна: {{product.product.price}}$</p>
+            <div class="amount_fam">
                 <button class = "minus">&minus;</button>
-                <span class="count">3</span>
+                <span class="amount">{{product.amount}}</span>
                 <button class = "plus">&plus;</button>
             </div>
-            <input name="id" value="{{product.pk}}" hidden>
+            <input name="id" value="{{product.product.pk}}" hidden>
             <input name="url" value="{% url 'shop' %}" hidden>
-            <button value="{{product.pk}}" class="send_btn">{{text_btn}}</button>
+            <button value="{{product.product.pk}}" class="send_btn">{{text_btn}}</button>
         </form>
         {% endfor %}
     </main>

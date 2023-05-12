@@ -1,47 +1,44 @@
 
 from django.shortcuts import render
 from .models import Product
+import json
 
 # Create your views here.
 
 def showShop(request):
-    context = {
-        'title': 'Магазин',
-        'products':  Product.objects.all(),
-        'text_btn': 'Замовити',
-    }
+    context = {'title': 'Магазин','text_btn': 'Замовити',}
+    product_list_for_html = [{'product': product, 'amount': 1} for product in Product.objects.all()]
 
+    if request.COOKIES.get('basket'):
+        basket_value = json.loads(request.COOKIES.get('basket'))
+        for check_product in product_list_for_html:
+            for check_product_basket in basket_value:
+                if check_product_basket['product']['id_product'] in  str(check_product['product'].pk):
+                    check_product['amount'] = check_product_basket['product']['amount']
+    context['products'] = product_list_for_html
     response = render(request, 'shop.html', context)
 
+
     if request.method == 'POST':
-
-        basket = request.COOKIES.get('cart', None)
-        product_id = request.POST.get('id')
-        
-        count_basket_products = request.COOKIES.get('count', None)
-        get_count_product = request.POST.get('count')
-
-        print(get_count_product)
-
-        if basket != None:
-            basket_list = basket.split(' ')
-            count_basket_products_list =  count_basket_products.split(' ')
-
-            if product_id in basket_list:
-                #pass
-                index_product = basket_list.index(product_id)
-                count_basket_products_list[index_product] = get_count_product
-                response.set_cookie('count', ' '.join(count_basket_products_list))
+        get_product_id = request.POST.get('id')
+        get_product_amount = request.POST.get('amount')
+        basket_cookie = request.COOKIES.get('basket', None)
+        if basket_cookie: 
+            basket_cookie = json.loads(basket_cookie)
+            for product_from_basket in basket_cookie:
+                if get_product_id in product_from_basket['product']['id_product']:
+                    product_from_basket['product']['amount'] = get_product_amount
+                    break
             else:
-                response.set_cookie('cart', basket+' '+product_id)
-                response.set_cookie('count', count_basket_products+' 1')
+                product_dict = {'product':{"id_product": get_product_id, "amount": get_product_amount}}
+                basket_cookie.append(product_dict)
         else:
-            response.set_cookie('cart', product_id)
-            response.set_cookie('count', get_count_product)
-            
+            basket_cookie = []
+            product_dict = {'product':{"id_product": get_product_id, "amount": get_product_amount}}
+            basket_cookie.append(product_dict)
+
+        response.set_cookie('basket', json.dumps(basket_cookie))
     return response
-
-
 
 
 
@@ -50,3 +47,6 @@ def showBasket(request):
         'title': 'Кошик'
     }
     return render(request, 'basket.html', context)
+
+
+

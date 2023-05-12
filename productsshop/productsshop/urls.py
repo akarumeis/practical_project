@@ -21,7 +21,7 @@ from productsshopapp.views import showShop, showBasket
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shop/', showShop, name = 'shop' ),
+    path('', showShop, name = 'shop' ),
     path('basket/', showBasket, name = 'basket'),
 
 ]+ static(MEDIA_URL, document_root= MEDIA_ROOT)
