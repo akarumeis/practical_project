@@ -2,42 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script defer src="{% static 'js/jQuery.js' %}"></script>
-    <script defer src="{% static 'js/script.js' %}"></script>
-    <title>{{ title }}</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/style_shop.css' %}">
+  <script defer src="{% static 'js/jQuery.js' %}"></script>
+  <script defer src="{% static 'js/script.js' %}"></script>
+  <title>{{ title }}</title>
 </head>
 
 <body>
-    <header>
-        <div class="nav_btn">
-            <a href="{% url 'basket' %}"><img class="basket_header" src="{% static 'img/basket.png' %}"></a>
-            <a class="main_header" href="{% url 'shop' %}">Головна сторінка</a>
-        </div>
+  <header>
+    <div class="nav_btn">
+      <a href="{% url 'basket' %}"><img class="basket_header" src="{% static 'img/basket.png' %}"></a>
+      <a class="main_header" href="{% url 'shop' %}">Головна сторінка</a>
+    </div>
 
-    </header>
-    <main>
-        {% for product in products %}
-        <form method="post" class="product" id="form">
-            {% csrf_token %}
-            <p class="title">Назва: {{product.product.name}}</p>
-            <p><img class="image" src="{{product.product.image.url}}"></p>
-            <p>Опис: {{product.product.description}}</p>
-            <p id='price'>Ціна: {{product.product.price}}$</p>
-            <div class="amount_fam">
-                <button class = "minus">&minus;</button>
-                <span class="amount">{{product.amount}}</span>
-                <button class = "plus">&plus;</button>
-            </div>
-            <input name="id" value="{{product.product.pk}}" hidden>
-            <input name="url" value="{% url 'shop' %}" hidden>
-            <button value="{{product.product.pk}}" class="send_btn">{{text_btn}}</button>
-        </form>
-        {% endfor %}
-    </main>
+  </header>
+  <main>
+    {% for product in products %}
+    <form method="post" class="product" id="form">
+      {% csrf_token %}
+      <p class="title">Назва: {{product.product.name}}</p>
+      <p><img class="image" src="{{product.product.image.url}}"></p>
+      <p>Опис: {{product.product.description}}</p>
+      <p id='price'>Вартість: {{product.product.price}}$</p>
+      <div class="amount_fam">
+        <button class="minus">&minus;</button>
+        <span class="amount ">{{product.amount}}</span>
+        <button class="plus">&plus;</button>
+      </div>
+      <input name="id" value="{{product.product.pk}}" hidden>
+      <input name="url" value="{% url 'shop' %}" hidden>
+      <button value="{{product.product.pk}}" class="send_btn">{{text_btn}}</button>
+    </form>
+    {% endfor %}
+  </main>
 </body>
 
 </html>

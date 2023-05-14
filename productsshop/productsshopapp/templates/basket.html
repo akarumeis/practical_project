@@ -2,22 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="{% static 'js/' %}"></script>
-    <title>{{ title }}</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/style_basket.css' %}">
+  <script defer src="{% static 'js/jQuery.js' %}"></script>
+  <script defer src="{% static 'js/script.js' %}"></script>
+  <title>{{ title }}</title>
+
 </head>
 
 <body>
-    <header>
-        <div class="nav_btn">
-            <a href="{% url 'basket' %}"><img class="basket_header" src="{% static 'img/basket.png' %}"></a>
-            <a class="main_header" href="{% url 'shop' %}">Головна сторінка</a>
-        </div>
+  <header>
+    <div class="nav_btn">
+      <a href="{% url 'basket' %}"><img class="basket_header" src="{% static 'img/basket.png' %}"></a>
+      <a class="main_header" href="{% url 'shop' %}">Головна сторінка</a>
+    </div>
+  </header>
+  <main>
+    <div class="basket_div">
+      {% for product in products %}
+      <form method="post" class="product" id="{{product.product.product_id.pk}}">
+        {% csrf_token %}
+        <p class="title">Назва: {{product.product.product_id.name}}</p>
+        <p><img class="image" src="{{product.product.product_id.image.url}}"></p>
+        <p>Опис: {{product.product.product_id.description}}</p>
+        <input name="id" value="{{product.product.product_id.pk}}" hidden>
+        <input name="url" value="{% url 'basket' %}" hidden>
 
-    </header>
+        <div class="amount_fam">
+          <span>Кількість:</span>
+          <button value="{{product.product.product_id.pk}}" class="minus send_amount">&minus;</button>
+          <span class="amount ">{{product.product.amount}}</span>
+          <button value="{{product.product.product_id.pk}}" class="plus send_amount">&plus;</button>
+        </div>
+        <input name="price_one" value="{{product.product.product_id.price}}" hidden>
+        <p class="price">Вартість: <span class="price_span">{{product.product.product_id.price}}</span>$</p>
+        <button value="{{product.product.product_id.pk}}" class="delete_btn">{{text_btn}}</button>
+      </form>
+      {% endfor %}
+    </div>
+    <div class="all_price_div">
+      <p class="all_price_str">До сплати: <span class="all_price">0</span>$</p>
+      <button class="pay_button">Сплатити</button>
+    </div>
+  </main>
 </body>
 
 </html>
